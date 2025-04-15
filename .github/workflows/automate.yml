@@ -37,5 +37,5 @@ jobs:
       - name: Docker login, build & push
         run: |
           echo "${{ secrets.DOCKERTOKEN }}" | docker login -u "salilrichardtigga" --password-stdin
-          docker build -t salilrichardtigga/FASTAPI-DOCKERIZE-MAIN:v0.1 .
-          docker push salilrichardtigga/FASTAPI-DOCKERIZE-MAIN:v0.1
+          docker build -t salilrichardtigga/fastapi-dockerize-main:v0.1 .
+          docker push salilrichardtigga/fastapi-dockerize-main:v0.1
