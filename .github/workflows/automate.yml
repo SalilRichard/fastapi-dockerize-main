@@ -1,0 +1,41 @@
+name: Docker image build and push
+
+on:
+  push:
+    branches:
+      - main  # Change this if you're pushing to another branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Display project files
+        run: |
+          echo "📁 Listing files:"
+          ls -la
+          echo "🔍 Preview Dockerfile:"
+          cat Dockerfile || echo "Dockerfile not found"
+          echo "🔍 Preview main.py:"
+          cat main.py || echo "main.py not found"
+          echo "🔍 Preview requirements.txt:"
+          cat requirements.txt || echo "requirements.txt not found"
+
+      - name: Check if DOCKERTOKEN secret is present
+        run: |
+          if [ -z "${{ secrets.DOCKERTOKEN }}" ]; then
+            echo "❌ DOCKERTOKEN is empty or not defined"
+            exit 1
+          else
+            echo "✅ DOCKERTOKEN is set"
+          fi
+
+          
+      - name: Docker login, build & push
+        run: |
+          echo "${{ secrets.DOCKERTOKEN }}" | docker login -u "salilrichardtigga" --password-stdin
+          docker build -t salilrichardtigga/FASTAPI-DOCKERIZE-MAIN:v0.1 .
+          docker push salilrichardtigga/FASTAPI-DOCKERIZE-MAIN:v0.1
